@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { getStoredStudents, saveStoredStudents } from '../studentStorage'
 
 export default function Students() {
+  const navigate = useNavigate()
   const [students, setStudents] = useState(() => getStoredStudents())
   const [selectedFilter, setSelectedFilter] = useState('All')
 
@@ -59,9 +61,10 @@ export default function Students() {
               </div>
               <span>{student.course}</span>
               <span className={`status-badge ${student.status.toLowerCase()}`}>{student.status}</span>
-              <button type="button" className="delete-btn" onClick={() => handleDelete(student.id)}>
-                Remove
-              </button>
+              <div className="row-actions">
+                <button type="button" className="update-btn" onClick={() => navigate('/dashboard')}>Edit</button>
+                <button type="button" className="delete-btn" onClick={() => handleDelete(student.id)}>Delete</button>
+              </div>
             </div>
           ))}
         </div>

@@ -12,6 +12,9 @@ import Reports from './pages/Reports'
 import Support from './pages/Support'
 import Login from './pages/Login'
 import Programs from './pages/Programs'
+import Register from './pages/Register'
+import ModulePage from './pages/ModulePage'
+import Assignments from './pages/Assignments'
 
 const AUTH_STORAGE_KEY = 'student-portal-authenticated'
 
@@ -35,15 +38,6 @@ function ScrollToTop() {
 function Header() {
   const navigate = useNavigate()
   const location = useLocation()
-  const navItems = [
-    { label: 'Home', path: '/' },
-    { label: 'Dashboard', path: '/dashboard' },
-    { label: 'Students', path: '/students' },
-    { label: 'Attendance', path: '/attendance' },
-    { label: 'Performance', path: '/performance' },
-    { label: 'Reports', path: '/reports' },
-    { label: 'Support', path: '/support' },
-  ]
 
   return (
     <header className="site-header">
@@ -77,16 +71,30 @@ function Header() {
       </div>
 
       <nav className="main-nav" aria-label="Main navigation">
-        {navItems.map((item) => (
-          <button
-            key={item.path}
-            type="button"
-            className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
-            onClick={() => navigate(item.path)}
-          >
-            {item.label}
-          </button>
-        ))}
+        <button type="button" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`} onClick={() => navigate('/')}>
+          Home
+        </button>
+        <button type="button" className={`nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`} onClick={() => navigate('/dashboard')}>
+          Dashboard
+        </button>
+        <button type="button" className={`nav-link ${location.pathname === '/students' ? 'active' : ''}`} onClick={() => navigate('/students')}>
+          Students
+        </button>
+        <button type="button" className={`nav-link ${location.pathname === '/attendance' ? 'active' : ''}`} onClick={() => navigate('/attendance')}>
+          Attendance Tracker
+        </button>
+        <button type="button" className={`nav-link ${location.pathname === '/performance' ? 'active' : ''}`} onClick={() => navigate('/performance')}>
+          Performance
+        </button>
+        <button type="button" className={`nav-link ${location.pathname === '/reports' ? 'active' : ''}`} onClick={() => navigate('/reports')}>
+          Reports
+        </button>
+        <button type="button" className={`nav-link ${location.pathname === '/assignments' ? 'active' : ''}`} onClick={() => navigate('/assignments')}>
+          Assignments
+        </button>
+        <button type="button" className={`nav-link ${location.pathname === '/support' ? 'active' : ''}`} onClick={() => navigate('/support')}>
+          Support
+        </button>
       </nav>
     </header>
   )
@@ -155,8 +163,21 @@ function AppLayout() {
           <Route path="/attendance" element={<Attendance />} />
           <Route path="/performance" element={<Performance />} />
           <Route path="/reports" element={<Reports />} />
+          <Route path="/assignments" element={<Assignments />} />
           <Route path="/programs" element={<Programs />} />
           <Route path="/support" element={<Support />} />
+          <Route path="/student/edit" element={<ModulePage title="Edit Student" />} />
+          <Route path="/student/delete" element={<ModulePage title="Delete Student" />} />
+          <Route path="/academic/departments" element={<ModulePage title="Departments" />} />
+          <Route path="/academic/courses" element={<ModulePage title="Courses" />} />
+          <Route path="/academic/subjects" element={<ModulePage title="Subjects" />} />
+          <Route path="/academic/teachers" element={<ModulePage title="Teachers" />} />
+          <Route path="/academic/enrollments" element={<ModulePage title="Enrollments" />} />
+          <Route path="/attendance/exams" element={<ModulePage title="Exams" />} />
+          <Route path="/attendance/marks" element={<ModulePage title="Marks" />} />
+          <Route path="/attendance/grades" element={<ModulePage title="Grades" />} />
+          <Route path="/administration/fees" element={<ModulePage title="Fees" />} />
+          <Route path="/administration/notices" element={<ModulePage title="Notices" />} />
         </Routes>
       </main>
       <Footer />
@@ -169,7 +190,10 @@ function App() {
     <Router>
       <ScrollToTop />
       <Routes>
-        <Route path="/login" element={<Login authStorageKey={AUTH_STORAGE_KEY} />} />
+        <Route path="/login" element={<Navigate to="/login/student" replace />} />
+        <Route path="/login/student" element={<Login authStorageKey={AUTH_STORAGE_KEY} role="student" />} />
+        <Route path="/login/staff" element={<Login authStorageKey={AUTH_STORAGE_KEY} role="staff" />} />
+        <Route path="/register/student" element={<Register />} />
         <Route
           path="*"
           element={

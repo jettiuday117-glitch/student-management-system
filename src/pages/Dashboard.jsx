@@ -285,7 +285,7 @@ export default function Dashboard() {
                 </select>
 
                 <div className="row-actions">
-                  <button type="button" className="update-btn" onClick={() => navigate('/performance')} aria-label={`Update ${student.name}`}>
+                  <button type="button" className="update-btn" onClick={() => navigate('/students', { state: { editStudentId: student.id } })} aria-label={`Update ${student.name}`}>
                     Update
                   </button>
                   <button type="button" className="delete-btn" onClick={() => handleDelete(student.id)}>

@@ -138,6 +138,52 @@
   flex-wrap: wrap;
 }
 
+.nav-menu {
+  position: relative;
+}
+
+.nav-menu-trigger span {
+  margin-left: 4px;
+  font-size: 0.8rem;
+}
+
+.nav-dropdown {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 4px);
+  left: -12px;
+  display: none;
+  min-width: 190px;
+  padding: 6px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.18);
+}
+
+.nav-menu:hover .nav-dropdown,
+.nav-menu:focus-within .nav-dropdown {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-dropdown button {
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: #1f2937;
+  padding: 9px 10px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.82rem;
+}
+
+.nav-dropdown button:hover,
+.nav-dropdown button.selected {
+  background: #eef4ff;
+  color: #1d4ed8;
+}
+
 .nav-link {
   border: 0;
   background: transparent;
@@ -538,6 +584,12 @@
   text-transform: uppercase;
 }
 
+.students-workspace {
+  display: grid;
+  grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
+  gap: 24px;
+}
+
 .support-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -706,6 +758,7 @@
   .content-grid,
   .stats-grid,
   .two-column,
+  .students-workspace,
   .support-grid,
   .footer-top {
     grid-template-columns: 1fr;
@@ -1082,6 +1135,34 @@
   line-height: 1.2;
 }
 
+.login-role-switcher {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 22px;
+  border-radius: 6px;
+  background: #f0f2f2;
+}
+
+.login-role-switcher button {
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: #565959;
+  padding: 8px 6px;
+  cursor: pointer;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.login-role-switcher button.active {
+  border-color: #c7caca;
+  background: #fff;
+  color: #0f1111;
+  box-shadow: 0 1px 2px rgba(15, 17, 17, 0.1);
+}
+
 .login-welcome {
   margin: -6px 0 20px;
   color: #565959;
@@ -1115,6 +1196,34 @@
 .login-form input:focus {
   border-color: #e77600;
   box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.35);
+}
+
+.password-input-wrap {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.password-input-wrap input {
+  margin-bottom: 0;
+  padding-right: 58px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  color: #0066c0;
+  cursor: pointer;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.password-toggle:hover {
+  color: #c45500;
+  text-decoration: underline;
 }
 
 .login-label-row {
@@ -1170,6 +1279,47 @@
   margin: 0 0 2px;
   color: #b42318;
   font-size: 0.82rem;
+}
+
+.login-success {
+  margin: 0 0 16px;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 4px;
+  background: rgba(34, 197, 94, 0.08);
+  color: #166534;
+  padding: 9px 10px;
+  font-size: 0.8rem;
+}
+
+.back-to-login {
+  border: 0;
+  padding: 0;
+  margin-bottom: 18px;
+  background: transparent;
+  color: #0066c0;
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+
+.back-to-login:hover {
+  color: #c45500;
+  text-decoration: underline;
+}
+
+.required-mark {
+  color: #c45500;
+}
+
+.register-panel-inner {
+  width: min(100%, 440px);
+}
+
+.register-page .login-card {
+  padding-bottom: 24px;
+}
+
+.register-fields label {
+  min-width: 0;
 }
 
 .login-terms {

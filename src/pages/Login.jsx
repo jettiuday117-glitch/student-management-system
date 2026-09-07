@@ -1,12 +1,19 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-function Login({ authStorageKey }) {
+function Login({ authStorageKey, role }) {
   const navigate = useNavigate()
   const location = useLocation()
+  const isStudentLogin = role === 'student'
+  const roleTitle = isStudentLogin ? 'Student sign in' : 'Admin & Teacher sign in'
+  const roleDescription = isStudentLogin
+    ? 'Access your courses, attendance, grades, and student resources.'
+    : 'Manage students, attendance, performance, and reports from one workspace.'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const registeredMessage = location.state?.registered
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -17,13 +24,14 @@ function Login({ authStorageKey }) {
     }
 
     window.localStorage.setItem(authStorageKey, 'true')
+    window.localStorage.setItem('student-portal-role', role)
     const destination = location.state?.from?.pathname || '/'
     navigate(destination, { replace: true })
   }
 
   return (
     <main className="login-page">
-      <section className="login-panel" aria-label="Student Portal sign in">
+      <section className="login-panel" aria-label={roleTitle}>
         <div className="login-panel-inner">
           <div className="login-brand" aria-label="Student Portal">
             <span className="login-brand-mark">S</span>
@@ -31,11 +39,28 @@ function Login({ authStorageKey }) {
           </div>
 
           <div className="login-card">
-            <h1>Sign in</h1>
-            <p className="login-welcome">Welcome to your student management workspace.</p>
+            <div className="login-role-switcher" aria-label="Choose account type">
+              <button
+                type="button"
+                className={isStudentLogin ? 'active' : ''}
+                onClick={() => navigate('/login/student')}
+              >
+                Student
+              </button>
+              <button
+                type="button"
+                className={!isStudentLogin ? 'active' : ''}
+                onClick={() => navigate('/login/staff')}
+              >
+                Admin / Teacher
+              </button>
+            </div>
+            <h1>{roleTitle}</h1>
+            <p className="login-welcome">{roleDescription}</p>
+            {registeredMessage && <p className="login-success" role="status">Account created. You can now sign in.</p>}
 
             <form className="login-form" onSubmit={handleSubmit}>
-              <label htmlFor="email">Email or mobile phone number</label>
+              <label htmlFor="email">{isStudentLogin ? 'Student email' : 'Admin or teacher email'}</label>
               <input
                 id="email"
                 type="email"
@@ -49,13 +74,24 @@ function Login({ authStorageKey }) {
                 <label htmlFor="password">Password</label>
                 <button type="button" className="text-btn">Forgot your password?</button>
               </div>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                autoComplete="current-password"
-              />
+              <div className="password-input-wrap">
+                <input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword((current) => !current)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  aria-pressed={showPassword}
+                >
+                  {showPassword ? 'Hide' : 'Show'}
+                </button>
+              </div>
 
               <label className="keep-signed-in">
                 <input type="checkbox" />
@@ -70,7 +106,9 @@ function Login({ authStorageKey }) {
           </div>
 
           <div className="new-account-divider"><span>New to Student Portal?</span></div>
-          <button type="button" className="create-account-btn">Create your Student Portal account</button>
+          <button type="button" className="create-account-btn" onClick={() => navigate('/register/student')}>
+            Create your Student Portal account
+          </button>
 
           <footer className="login-footer">
             <div><a href="#conditions">Conditions of Use</a><a href="#privacy">Privacy Notice</a><a href="mailto:support@studentportal.edu">Help</a></div>
